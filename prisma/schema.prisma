@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Entrega {
+  id            Int        @id @default(autoincrement())
+  cidadeDestino String
+  quilometragem Float
+  status        String
+  dataSaida     DateTime
+
+  relatorioId   Int?
+  relatorio     Relatorio? @relation(fields: [relatorioId], references: [id])
+
+  veiculoId     Int
+  veiculo       Veiculo    @relation(fields: [veiculoId], references: [id])
+}
+
+model NotaFiscal {
+  id       Int    @id @default(autoincrement())
+  numNota  Int
+  peso     Float
+  cidade   String
+  numItens Int
+}
+
+model Relatorio {
+  id         Int       @id @default(autoincrement())
+  dataInicio DateTime
+  dataFinal  DateTime
+  entregas   Entrega[]
+}
+
+model Local {
+  id           Int    @id @default(autoincrement())
+  endereco     String
+  tipoImovel   String
+  custoMensal  Float
+  tipo         String
+  valorAluguel Float?
+  valorImovel  Float?
+}
+
+model Transportadora {
+  id             Int    @id @default(autoincrement())
+  nomeTransp     String
+  cnpjTransp     String
+  enderecoTransp String
+}
+
+model Funcionario {
+  id       Int      @id @default(autoincrement())
+  nomeFunc String
+  cpfFunc  String
+  dataNasc DateTime
+  salario  Float
+  tipo     String
+}
+
+model Fornecedor {
+  id       Int    @id @default(autoincrement())
+  nomeFor  String
+  cnpjFor  String
+  comissao Float
+  endereco String
+  tipo     String
+}
+
+model Veiculo {
+  id         Int     @id @default(autoincrement())
+  renav      Int     
+  placa      String  
+  modelo     String
+  marca      String
+  ano        Int
+  capacidade Float
+  senha      String  
+  entregas   Entrega[]  // ← relação 1:N com Entrega
+  
+}
