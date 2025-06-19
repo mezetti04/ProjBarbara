@@ -1,58 +1,85 @@
 // src/components/AboutUs.tsx
 import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
-import aboutUsImage from '../assets/sua_imagem_sobre_nos.png'; // **Importe sua imagem aqui!**
-// Lembre-se: O nome do arquivo da imagem deve ser EXATO (incluindo extensão e capitalização).
+import aboutUsImage from '../assets/sua_imagem_sobre_nos.png';
+import { useTheme } from '@mui/material/styles';
+import MapComponent from './MapComponent'; // Importe o novo componente de mapa
 
 const AboutUs: React.FC = () => {
+  const theme = useTheme();
+
+  // Coordenadas para Machado, MG
+  const machadoCoordinates = {
+    latitude: -21.682185,
+    longitude: -45.908138,
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ mt: 8, mb: 8 }}> {/* Container para limitar a largura geral do conteúdo */}
-      <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', color: '#000', textAlign: 'center', mb: 4 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        mt: 8,
+        mb: 8,
+        backgroundColor: theme.palette.mode === 'dark' ? '#212121' : theme.palette.background.default,
+        padding: 4,
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
+      <Typography
+        variant="h4"
+        component="h2"
+        gutterBottom
+        sx={{
+          fontWeight: 'bold',
+          color: theme.palette.text.primary,
+          textAlign: 'center',
+          mb: 4,
+        }}
+      >
         Sobre Nós
       </Typography>
 
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' }, // Empilha em telas pequenas, lado a lado em telas médias+
-          gap: 4, // Espaçamento entre os itens (texto e imagem)
-          alignItems: 'center', // Centraliza os itens verticalmente (se necessário)
-          justifyContent: 'center', // Centraliza os blocos de conteúdo horizontalmente
-          width: '100%', // Garante que este Box ocupe toda a largura do Container pai
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 4,
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
         }}
       >
         {/* Coluna da Esquerda: Texto "Sobre Nós" */}
         <Box sx={{
-          flexGrow: 1, // Permite que esta Box cresça para ocupar espaço disponível
-          flexShrink: 1, // Permite que esta Box encolha se necessário
-          flexBasis: { xs: '100%', md: 'calc(50% - 16px)' }, // Base de 100% ou 50% menos o gap
-          maxWidth: { xs: '100%', md: 'calc(50% - 16px)' }, // Garante que não exceda 50% em telas maiores
-          boxSizing: 'border-box', // Inclui padding/border no cálculo da largura
-          // Sem padding explícito aqui para evitar conflito com gap, o gap já fará o espaçamento
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: { xs: '100%', md: 'calc(50% - 16px)' },
+          maxWidth: { xs: '100%', md: 'calc(50% - 16px)' },
+          boxSizing: 'border-box',
         }}>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph sx={{ color: theme.palette.text.primary }}>
             Fundada em 2020 na cidade de Machado-MG, a JM INTERLOG nasceu com a missão de oferecer soluções logísticas eficientes e seguras.
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph sx={{ color: theme.palette.text.primary }}>
             Somos especializados no transporte de mercadorias provenientes de atacadistas, garantindo que cada entrega seja manuseada com o máximo de cuidado e profissionalismo.
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph sx={{ color: theme.palette.text.primary }}>
             Nosso compromisso é com a excelência. Entendemos a importância de cada carga e, por isso, investimos em uma operação pontual e confiável para que os produtos de nossos clientes cheguem ao seu destino com segurança e dentro do prazo.
           </Typography>
-          <Typography variant="body1" paragraph sx={{ fontWeight: 'bold' }}>
+          <Typography variant="body1" paragraph sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}>
             A JM INTERLOG é mais que uma transportadora; somos o parceiro estratégico que o seu negócio precisa para crescer.
           </Typography>
         </Box>
 
         {/* Coluna da Direita: Imagem */}
         <Box sx={{
-          flexGrow: 1, // Permite que esta Box cresça para ocupar espaço disponível
-          flexShrink: 1, // Permite que esta Box encolha se necessário
-          flexBasis: { xs: '100%', md: 'calc(50% - 16px)' }, // Base de 100% ou 50% menos o gap
-          maxWidth: { xs: '100%', md: 'calc(50% - 16px)' }, // Garante que não exceda 50% em telas maiores
-          boxSizing: 'border-box', // Inclui padding/border no cálculo da largura
-          display: 'flex', // Transforma este Box em um container flex para centralizar a imagem
-          justifyContent: 'center', // Centraliza a imagem horizontalmente
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: { xs: '100%', md: 'calc(50% - 16px)' },
+          maxWidth: { xs: '100%', md: 'calc(50% - 16px)' },
+          boxSizing: 'border-box',
+          display: 'flex',
+          justifyContent: 'center',
         }}>
           <img
             src={aboutUsImage}
@@ -65,6 +92,33 @@ const AboutUs: React.FC = () => {
             }}
           />
         </Box>
+      </Box>
+
+      {/* Seção do Mapa - Box Estilizado */}
+      <Box
+        sx={{
+          mt: 8,
+          width: '100%',
+          p: 3, // Adiciona um preenchimento interno
+          backgroundColor: theme.palette.background.paper, // Fundo correspondente a Paper do tema
+          borderRadius: theme.shape.borderRadius, // Borda arredondada
+          boxShadow: theme.palette.mode === 'dark' ? '0px 4px 20px rgba(255, 255, 255, 0.05)' : '0px 4px 20px rgba(0, 0, 0, 0.1)', // Sombra adaptativa
+        }}
+      >
+        <Typography
+          variant="h5"
+          component="h3"
+          gutterBottom
+          sx={{
+            fontWeight: 'bold',
+            color: theme.palette.text.primary,
+            textAlign: 'center',
+            mb: 3,
+          }}
+        >
+          Nossa Localização
+        </Typography>
+        <MapComponent latitude={machadoCoordinates.latitude} longitude={machadoCoordinates.longitude} />
       </Box>
     </Container>
   );
